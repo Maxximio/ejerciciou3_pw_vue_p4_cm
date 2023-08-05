@@ -9,7 +9,7 @@ export const obtenerVehiculoFachada=async(placa)=>{
 }
 
 const obtenerVehiculos=async()=>{
-    const data = axios.get(`http://localhost:8080/API/v1.0/Concesionaria/vehiculos/`).then(r=>r.data);
+    const data = axios.get(`http://localhost:8080/API/v1.0/Concesionaria/vehiculos`).then(r=>r.data);
     return data;
 }
 

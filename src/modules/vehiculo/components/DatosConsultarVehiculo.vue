@@ -1,25 +1,23 @@
 <template>
   <div class="resto">
-    <!-- /*<ul>
-      <li v-for="dataItem in data" :key="dataItem.id">
-        <strong>ID:</strong> {{ dataItem.id }}<br>
-        <strong>Nombre:</strong> {{ dataItem.placa }}<br>
-        <strong>Descripción:</strong> {{ dataItem.marca }}<br>
-      </li>
-    </ul>*/ -->
 
-    <label for="">Id</label>
-    <input v-model="id" type="text" />
-    <label for="">Placa</label>
-    <input v-model="placa" type="text" />
-    <label for="">Marca</label>
-    <input v-model="marca" type="text" />
-    <label for="">Anio</label>
-    <input v-model="anio" type="text" />
-    <label for="">propietario</label>
-    <input v-model="propietario" type="text" />
+    <div v-for="(vehiculo, index) in data" :key="index">
 
+      <p>ID: {{ vehiculo.id }}</p>
+      <p>Placa: {{ vehiculo.placa }}</p>
+      <p>Marca: {{ vehiculo.marca }}</p>
+      <p>Año: {{ vehiculo.anio }}</p>
+      <p>Propietario: {{ vehiculo.propietario }}</p>
+    </div>
     
+    <div v-if="visualizar">
+      <p>ID: {{ data[0].id }}</p>
+      <p>Placa: {{ data[0].placa }}</p>
+      <p>Marca: {{ data[0].marca }}</p>
+      <p>Año: {{ data[0].anio }}</p>
+      <p>Propietario: {{ data[0].propietario }}</p>
+    </div>
+
     <button>Visualizar</button>
   </div>
   
@@ -33,25 +31,28 @@ import { obtenerVehiculoFachada } from '../helpers/VehiculoCliente';
 export default {
   data() {
     return {
-      data:[],
-      placa:null,
-      id:null,
-      marca:null,
-      propietario:null,
-      anio:null
-      
+      visualizar:false,
+      data: [],
+      placa: null,
+      id: null,
+      marca: null,
+      propietario: null,
+      anio: null
     };
   },
-  mounted() {
-    const data = this.obtenerVehiculosFachada();
-    this.placa=data.placa
+  async mounted() {
+    this.data = await obtenerVehiculosFachada();
   },
-  methods: {
-    async consultaVehiculo() {
+  methods:{
+    async consultaUnVehiculo() {
       const data = await obtenerVehiculoFachada(this.placa);
-      this.data=data
+      this.placa = data.placa;
+      this.marca = data.marca;
+      this.propietario = data.propietario;
+      this.anio = data.anio;
+      this.id = data.id;
     },
-  },
+  }
 };
 </script>
 
